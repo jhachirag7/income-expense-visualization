@@ -29,7 +29,8 @@ SECRET_KEY = '8)^&fj2_*s+djlzvwf#tpw4f&^0u_&4_ma56f)bz2kf*z$p2&7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'https://your-expenses-visualizer.herokuapp.com/', 'localhost', '127.0.0.1:800']
 
 
 # Application definition
