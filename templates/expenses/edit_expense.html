@@ -5,13 +5,13 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'expenses'%}">Expenses</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Add Expenses</li>
+            <li class="breadcrumb-item active" aria-current="page">Edit Expense</li>
         </ol>
     </nav>
 
     <div class="card">
         <div class="card-body">
-            <form acction="{% url 'add_expenses'%}" method="post">
+            <form acction="{% url 'expense_edit' values.id %}" method="post">
             {%csrf_token%}
             <div class="form-group py-3">
                 <label for="">Amount<sup>*</sup></label>
@@ -26,6 +26,7 @@
             <div class="form-group py-3">
                 <label for="">Category<sup>*</sup></label>
                 <select class="form-select" name="category" required>
+                    <option selected name="category" value={{values.category}}>{{values.category}}</option>
                   {% for category in categories %}
                   <option name="category" value={{category.name}}>{{category.name}}</option>
                   {% endfor %}
@@ -37,7 +38,7 @@
                 <input type="date" class="form-control form-control-sm" name="date" required>
             </div>
 
-            <input type="submit" value="Submit" class="btn btn-primary">
+            <input type="submit" value="Save" class="btn btn-primary">
             </form>
         </div>
     </div>

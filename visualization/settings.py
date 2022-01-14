@@ -15,7 +15,7 @@ import os
 from dotenv import load_dotenv
 
 import django_heroku
-
+from django.contrib import messages
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -27,10 +27,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '8)^&fj2_*s+djlzvwf#tpw4f&^0u_&4_ma56f)bz2kf*z$p2&7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
-    'https://your-expenses-visualizer.herokuapp.com/', 'localhost', '127.0.0.1:800']
+    'https://your-expenses-visualizer.herokuapp.com/', '127.0.0.1:800', 'localhost']
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'expenses',
+    'userprefrences'
 ]
 
 MIDDLEWARE = [
@@ -82,9 +83,7 @@ WSGI_APPLICATION = 'visualization.wsgi.application'
 DB_NAME = "incomeexpensesdb"
 DB_USER = "postgres"
 DB_PASSWORD = "password"
-
 load_dotenv()
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -139,3 +138,18 @@ STATICFILES_DIRS = [
 ]
 STATICROOT = os.path.join(BASE_DIR, 'static')
 django_heroku.settings(locals())
+
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
+
+# email connection
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 587
+
+# API
+API_KEY = os.environ.get('API_KEY')

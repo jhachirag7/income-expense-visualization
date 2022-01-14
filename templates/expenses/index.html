@@ -1,20 +1,110 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<h1> Expenses List </h1>
+{%include 'partials/_confirmdelete.html'%}
+<div class="container mt-4">
+  {%include 'partials/_messages.html'%}
+  <div class="row">
+    <div class="col-md-10">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="">Expenses</a></li>
+          <li class="breadcrumb-item active" aria-current="page">MY Expenses</li>
+        </ol>
+      </nav>
+    </div>
+    <div class="col-md-2">
+      <a href="{% url 'add_expenses' %}" class="btn btn-outline-primary"><i class="fas fa-plus"></i></a>
+    </div>
+  </div>
 
-<ul class="list-group">
-<li class="list-group-item">Beer</li>
-<li class="list-group-item">Beer</li>
-<li class="list-group-item">Beer</li>
-<li class="list-group-item">Beer</li>
-<li class="list-group-item">Beer</li>
-<li class="list-group-item">Beer</li>
-<li class="list-group-item">Beer</li>
-<li class="list-group-item">Beer</li>
+  <div class="container mt-2">
+    {% if expense.count %}
+    <div class="row">
+      <div class="col-md-8"></div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <input type="text" class="form-control" id="SearchField" placeholder="Search">
+        </div>
+      </div>
+    </div>
+    <div class="app-table">
+      <table class="table table-stripped table-hover">
+        <thead>
+          <tr>
+            <th>Amount ({{currency}})</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Modify</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for exp in page_object %}
+          <tr>
+            <td>{{exp.amount}}</td>
+            <td>{{exp.category}}</td>
+            <td>{{exp.description}}</td>
+            <td>{{exp.date}}</td>
+            <td><a href="{% url 'expense_edit' exp.id %}" class="btn btn-outline-success btn-sm"><i
+                  class="fad fa-edit"></i></a> <button type="button" onclick="openModal({{exp.id}});"
+                class="btn btn-outline-danger btn-sm" id="modal_btn" data-toggle="modal"
+                data-target="#exampleModalCenter">
+                <i class="fal fa-trash-alt"></i>
+              </button></td>
+          </tr>
+          {%endfor%}
+        </tbody>
+      </table>
+    </div>
+    <div class="no-result"></div>
+    <div class="table-output">
+      <table class="table table-stripped table-hover">
+        <thead>
+          <tr>
+            <th>Amount ({{currency}})</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Modify</th>
+          </tr>
+        </thead>
+
+        <tbody class="tableBody">
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination-container">
+      <div>
+        Showing Page {{page_object.number}} of {{page_object.paginator.num_pages}}
+      </div>
+      <ul class="pagination justify-content-center">
+        {% if page_object.has_previous %}
+        <li id="pages" class="page-item" onmousemove="MouseMove(this.id);" onmouseleave="MouseLeave(this.id);"><a
+            href="?page=1" class="page-link">&laquo;
+            1</a>
+        </li>
+        <li id="pages1" onmousemove="MouseMove(this.id);" onmouseleave="MouseLeave(this.id);" class="page-item"><a
+            href="?page={{ page_object.previous_page_number }}" class="page-link">Previous</a></li>
+        {% endif %}
+
+        {% if page_object.has_next %}
+        <li id="pages2" onmousemove="MouseMove(this.id);" onmouseleave="MouseLeave(this.id);" class="page-item"><a
+            href="?page={{ page_object.next_page_number }}" class="page-link">Next</a>
+        </li>
+        <li id="pages3" onmousemove="MouseMove(this.id);" onmouseleave="MouseLeave(this.id);" class="page-item"><a
+            href="?page={{ page_object.paginator.num_pages }}" class="page-link">{{page_object.paginator.num_pages}}
+            &raquo;</a></li>
+        {% endif %}
 
 
+      </ul>
 
-</ul>
+      {% endif %}
+    </div>
+  </div>
+</div>
 
 {% endblock content %}
