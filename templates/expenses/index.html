@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
 {%include 'partials/_confirmdelete.html'%}
 <div class="container mt-4">
   {%include 'partials/_messages.html'%}
@@ -106,5 +107,7 @@
     </div>
   </div>
 </div>
+
+<script src="{% static 'js/expenses.js' %}"></script>
 
 {% endblock content %}

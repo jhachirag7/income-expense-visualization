@@ -35,7 +35,7 @@
 
             <div class="form-group py-3">
                 <label for="">Date of Income<sup>*</sup></label>
-                <input type="date" class="form-control form-control-sm" name="date" required>
+                <input type="date" class="form-control form-control-sm" value="{{values.date| date:'Y-m-d'}}" name="date" required>
             </div>
 
             <input type="submit" value="Save" class="btn btn-primary">

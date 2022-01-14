@@ -81,9 +81,6 @@ WSGI_APPLICATION = 'visualization.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DB_NAME = "incomeexpensesdb"
-DB_USER = "postgres"
-DB_PASSWORD = "password"
 load_dotenv()
 DATABASES = {
     'default': {

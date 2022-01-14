@@ -5,6 +5,8 @@ from django.core.paginator import Paginator
 from userprefrences.models import UserPrefrence
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+import json
+from django.http import JsonResponse
 # Create your views here.
 
 
@@ -69,3 +71,26 @@ def income_edit(request, id):
         income.save()
         messages.success(request, "expense updated successfully")
         return redirect("income")
+
+
+def income_delete(request, id):
+    expense = Income.objects.get(pk=id)
+    expense.delete()
+    messages.success(request, "income deleted")
+    return redirect("income")
+
+
+def search_income(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        search_str = data["searchText"]
+
+        income = Income.objects.filter(
+            amount__istartswith=search_str, owner=request.user) | Income.objects.filter(
+            date__istartswith=search_str, owner=request.user) | Income.objects.filter(
+            description__icontains=search_str, owner=request.user) | Income.objects.filter(
+            source__icontains=search_str, owner=request.user)
+
+        searched_data = income.values()
+        return JsonResponse(list(searched_data), safe=False)
+    return redirect("income")

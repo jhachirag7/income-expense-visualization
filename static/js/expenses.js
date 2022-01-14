@@ -18,7 +18,7 @@ function close() {
 }
 function changeHref(aElem) {
     close();
-    aElem.href = `income-delete/${id}`;
+    aElem.href = `expense-delete/${id}`;
 
 }
 close_btn.addEventListener("click", close);
@@ -39,7 +39,7 @@ Search.addEventListener("keyup", (e) => {
     const searchval = e.target.value
     if (searchval.trim().length > 0) {
         PaginationContainer.style.display = "none";
-        fetch("/income/search-income", {
+        fetch("/search-expense", {
             body: JSON.stringify({ searchText: searchval }),
             method: "POST",
         })
@@ -61,17 +61,17 @@ Search.addEventListener("keyup", (e) => {
                         tbody.innerHTML += `
                         <tr>
                 <td>${element.amount}</td>
-                <td>${element.source}</td >
+                <td>${element.category}</td>
                 <td>${element.description}</td>
                 <td>${element.date}</td>
-                <td><a href="{% url 'income_edit' inc.id %}" class="btn btn-outline-success btn-sm"><i
-                  class="fad fa-edit"></i></a> <button type="button" onclick="openModal({{inc.id}});"
+                <td><a href="{% url 'expense_edit' exp.id %}" class="btn btn-outline-success btn-sm"><i
+                  class="fad fa-edit"></i></a> <button type="button" onclick="openModal({{exp.id}});"
                 class="btn btn-outline-danger btn-sm" id="modal_btn" data-toggle="modal"
                 data-target="#exampleModalCenter">
                 <i class="fal fa-trash-alt"></i>
               </button></td>
-                </tr >
-                            `
+                </tr>
+                        `
                         console.log(element.id);
                     });
                 }
