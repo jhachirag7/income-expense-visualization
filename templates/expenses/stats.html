@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+{%include 'partials/_confirmdelete.html'%}
+<div class="container mt-4">
+    {%include 'partials/_messages.html'%}
+    <div class="row">
+        <div class="col-md-10">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="">Expenses Summary</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Summary</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="col-md-2">
+            <a href="{% url 'expenses' %}" class="btn btn-outline-primary"><i class="fa fa-arrow-left"></i></a>
+        </div>
+        <canvas id="myChart" width="10" height="10"></canvas>
+    </div>
+
+</div>
+<script src="{% static 'js/chart.js' %}"></script>
+
+
+{% endblock content %}

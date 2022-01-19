@@ -29,7 +29,7 @@ class EmailTread(threading.Thread):
         threading.Thread.__init__(self)
 
     def run(self):
-        self.email.send(fail_silently=True)
+        self.email.send(fail_silently=False)
 
 
 class RegistrationView(View):

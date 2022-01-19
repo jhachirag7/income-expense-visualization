@@ -9,6 +9,7 @@ from expenses.models import Category, Expense
 from userprefrences.models import UserPrefrence
 import json
 from django.http import JsonResponse
+import datetime
 # Create your views here.
 
 
@@ -100,3 +101,40 @@ def search_expenses(request):
 
         searched_data = expenses.values()
         return JsonResponse(list(searched_data), safe=False)
+
+
+def category(expese):
+    return expese.category
+
+
+def category_amount(category, expense):
+    amount = 0
+    filter_by_category = expense.filter(category=category)
+    for item in filter_by_category:
+        amount += item.amount
+    return amount
+
+
+def expense_summary(request):
+    todays_date = datetime.date.today()
+    six_month_ago = todays_date-datetime.timedelta(days=180)
+    expense = Expense.objects.filter(
+        owner=request.user, date__gte=six_month_ago, date__lte=todays_date)
+
+    finalrep = {}
+
+    category_list = list(set(map(category, expense)))
+    print(category_list)
+
+    for x in expense:
+        for y in category_list:
+            print(x, y)
+            finalrep[y] = category_amount(y, expense)
+
+    print(finalrep)
+
+    return JsonResponse({'expense_category_data': finalrep}, safe=False)
+
+
+def stats_view(request):
+    return render(request, 'expenses/stats.html')
