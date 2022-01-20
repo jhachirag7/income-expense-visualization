@@ -38,7 +38,7 @@ const renderChart = (data, labels) => {
             // },
             title: {
                 display: true,
-                text: "Expense per Category"
+                text: "Income per Source"
             }
         }
     });
@@ -46,10 +46,10 @@ const renderChart = (data, labels) => {
 }
 
 const getChartData = () => {
-    fetch("/expense-summary").then((res) => res.json()).then((result) => {
+    fetch("income-summary").then((res) => res.json()).then((result) => {
         console.log(result);
-        const category_data = result.expense_category_data;
-        const [labels, data] = [Object.keys(category_data), Object.values(category_data)]
+        const source_data = result.income_source_data;
+        const [labels, data] = [Object.keys(source_data), Object.values(source_data)]
         renderChart(data, labels);
     });
 }

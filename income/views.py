@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 import json
 from django.http import JsonResponse
+import datetime
 # Create your views here.
 
 
@@ -94,3 +95,37 @@ def search_income(request):
         searched_data = income.values()
         return JsonResponse(list(searched_data), safe=False)
     return redirect("income")
+
+
+def stats_view(request):
+    return render(request, 'income/stats.html')
+
+
+def source(income):
+    return income.source
+
+
+def source_amount(source, income):
+    amount = 0
+    filter_by_source = income.filter(source=source)
+    for item in filter_by_source:
+        amount += item.amount
+    return amount
+
+
+def income_summary(request):
+    todays_date = datetime.date.today()
+    six_month_ago = todays_date-datetime.timedelta(days=180)
+    income = Income.objects.filter(
+        owner=request.user, date__gte=six_month_ago, date__lte=todays_date)
+
+    finalrep = {}
+
+    source_list = list(set(map(source, income)))
+
+    for x in income:
+        for y in source_list:
+            print(x, y)
+            finalrep[y] = source_amount(y, income)
+
+    return JsonResponse({'income_source_data': finalrep}, safe=False)
