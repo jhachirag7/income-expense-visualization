@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    {% include 'partials/_messages.html' %}
+    <div class="main-body">
+
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="main-breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'account'%}">Account</a></li>
+                <li class="breadcrumb-item active">User Profile</li>
+
+            </ol>
+        </nav>
+        <!-- /Breadcrumb -->
+
+        <div class="row gutters-sm">
+            <div class="col-md-5 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            {% if Profile.image %}
+                            <img src="{{request.user.Profile.image.url}}" alt="Profile" class="rounded-circle"
+                                width="150">
+                            {% else %}
+                            <img src="/media/default.png" alt="Profile" class="rounded-circle" width="150">
+                            {%endif%}
+                            <div class="mt-3">
+                                <h4>{{Profile.name}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Username</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{request.user}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Full Name</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{Profile.name}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Email</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{email}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Currency</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{preference.currency}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a class="btn btn-info " target="__blank" href="{% url 'edit-account' %}">Edit</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    var link6 = document.getElementById("link6");
+
+    function activateLink() {
+        link6.classList.add("active");
+    }
+    document.onload = activateLink();
+</script>
+{% endblock content %}

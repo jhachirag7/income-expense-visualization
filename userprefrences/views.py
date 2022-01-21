@@ -8,7 +8,7 @@ import os
 import json
 from .apiCall import RealTimeCurrencyExchangeRate
 from django.conf import settings
-from .models import UserPrefrence
+from .models import UserPrefrence, Profile
 # Create your views here.
 
 
@@ -41,3 +41,57 @@ def index(request):
             UserPrefrence.objects.create(user=request.user, currency=currency)
         messages.success(request, 'Changes saved successfully')
         return render(request, 'prefrences/index.html', {'currency': data, 'preferences': user_prefernces})
+
+
+def account_settings(request):
+    user = request.user
+    user = User.objects.get(id=user.id)
+    user_email = user.email
+    exists = Profile.objects.filter(user=request.user).exists()
+    Profile_user = None
+    if exists:
+        Profile_user = Profile.objects.get(user=request.user)
+    exists = UserPrefrence.objects.filter(user=request.user).exists()
+    user_prefernces = None
+    if exists:
+        user_prefernces = UserPrefrence.objects.get(user=request.user)
+    context = {
+        'email': user_email,
+        'Profile': Profile_user,
+        'preference': user_prefernces
+    }
+    return render(request, 'prefrences/account.html', context=context)
+
+
+def edit_account(request):
+    user = request.user
+    user = User.objects.get(id=user.id)
+    user_email = user.email
+    exists = Profile.objects.filter(user=request.user).exists()
+    Profile_user = None
+    if exists:
+        Profile_user = Profile.objects.get(user=request.user)
+    if request.method == "GET":
+        return render(request, 'prefrences/edit_account.html', {'user': Profile_user})
+    else:
+        name = request.POST['name']
+        image = request.FILES["image"]
+
+        if exists:
+            Profile_user.name = name
+            Profile_user.image = image
+            Profile_user.save()
+        else:
+            Profile.objects.create(user=request.user, name=name, image=image)
+        messages.success(request, 'Changes saved successfully')
+        Profile_user = Profile.objects.get(user=request.user)
+        exists = UserPrefrence.objects.filter(user=request.user).exists()
+        user_prefernces = None
+        if exists:
+            user_prefernces = UserPrefrence.objects.get(user=request.user)
+        context = {
+            'email': user_email,
+            'Profile': Profile_user,
+            'preference': user_prefernces
+        }
+        return render(request, 'prefrences/account.html', context=context)

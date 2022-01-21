@@ -113,4 +113,13 @@
 
 <script src="{% static 'js/searchIncome.js' %}"></script>
 
+<script>
+    var link2 = document.getElementById("link2");
+
+    function activateLink() {
+        link2.classList.add("active");
+    }
+    document.onload = activateLink();
+</script>
+
 {% endblock %}

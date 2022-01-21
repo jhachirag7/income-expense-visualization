@@ -11,7 +11,7 @@
 
     <div class="card">
         <div class="card-body">
-            <form acction="{% url 'expense_edit' values.id %}" method="post">
+            <form action="{% url 'expense_edit' values.id %}" method="post">
             {%csrf_token%}
             <div class="form-group py-3">
                 <label for="">Amount<sup>*</sup></label>
@@ -43,4 +43,12 @@
         </div>
     </div>
 </div>
+<script>
+    var link1 = document.getElementById("link1");
+  
+    function activateLink() {
+      link1.classList.add("active");
+    }
+    document.onload = activateLink();
+  </script>
 {% endblock content %}

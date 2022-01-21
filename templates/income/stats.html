@@ -21,6 +21,13 @@
 
 </div>
 <script src="{% static 'js/chart2.js' %}"></script>
+<script>
+    var link4 = document.getElementById("link4");
 
+    function activateLink() {
+        link4.classList.add("active");
+    }
+    document.onload = activateLink();
+</script>
 
 {% endblock content %}

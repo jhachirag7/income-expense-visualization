@@ -110,4 +110,13 @@
 
 <script src="{% static 'js/expenses.js' %}"></script>
 
+<script>
+  var link1 = document.getElementById("link1");
+
+  function activateLink() {
+    link1.classList.add("active");
+  }
+  document.onload = activateLink();
+</script>
+
 {% endblock content %}

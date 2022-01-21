@@ -20,6 +20,14 @@
     <canvas id="myChart" width="10" height="10"></canvas>
 </div>
 <script src="{% static 'js/chart.js' %}"></script>
+<script>
+    var link3 = document.getElementById("link3");
+
+    function activateLink() {
+        link3.classList.add("active");
+    }
+    document.onload = activateLink();
+</script>
 
 
 {% endblock content %}

@@ -151,3 +151,9 @@ EMAIL_PORT = 587
 
 # API
 API_KEY = os.environ.get('API_KEY')
+
+# Media
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

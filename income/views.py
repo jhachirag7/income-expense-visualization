@@ -125,7 +125,6 @@ def income_summary(request):
 
     for x in income:
         for y in source_list:
-            print(x, y)
             finalrep[y] = source_amount(y, income)
 
     return JsonResponse({'income_source_data': finalrep}, safe=False)
