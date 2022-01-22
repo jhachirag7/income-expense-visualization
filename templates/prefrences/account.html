@@ -29,6 +29,18 @@
                             <div class="mt-3">
                                 <h4>{{Profile.name}}</h4>
                             </div>
+                            <div>
+                                <div style="display: inline-block;">
+                                    <a href="{% url 'download-expense' %}" class="btn btn-outline-danger btn-sm">
+                                        <i class="far fa-download"></i> Expense
+                                    </a>
+                                </div>
+                                <div style="display: inline-block;">
+                                    <a class="btn btn-outline-success btn-sm">
+                                        <i class="far fa-download"></i> Income
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -81,12 +93,11 @@
                 </div>
 
 
-
-
             </div>
         </div>
 
     </div>
+
 </div>
 <script>
     var link6 = document.getElementById("link6");

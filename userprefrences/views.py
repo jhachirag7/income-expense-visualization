@@ -1,10 +1,15 @@
+from cgitb import html
+from datetime import datetime
 import imp
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.http import HttpResponse, response
 from django.shortcuts import render
 from visualization.settings import API_KEY
 from expenses.models import Expense
 import os
+from django.template.loader import render_to_string
+import csv
 import json
 from .apiCall import RealTimeCurrencyExchangeRate
 from django.conf import settings
@@ -95,3 +100,19 @@ def edit_account(request):
             'preference': user_prefernces
         }
         return render(request, 'prefrences/account.html', context=context)
+
+
+def download_expense(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=Expenses' + \
+        str(datetime.now())+'.csv'
+
+    writer = csv.writer(response)
+    writer.writerow(['Amount', 'description', 'category', 'Date'])
+
+    expense = Expense.objects.filter(owner=request.user)
+
+    for exp in expense:
+        writer.writerow([exp.amount, exp.description, exp.category, exp.date])
+
+    return response
