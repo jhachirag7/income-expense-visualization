@@ -7,6 +7,7 @@ from django.http import HttpResponse, response
 from django.shortcuts import render
 from visualization.settings import API_KEY
 from expenses.models import Expense
+from income.models import Income
 import os
 from django.template.loader import render_to_string
 import csv
@@ -108,11 +109,24 @@ def download_expense(request):
         str(datetime.now())+'.csv'
 
     writer = csv.writer(response)
-    writer.writerow(['Amount', 'description', 'category', 'Date'])
+    writer.writerow(['Amount', 'Description', 'Category', 'Date'])
 
     expense = Expense.objects.filter(owner=request.user)
 
     for exp in expense:
         writer.writerow([exp.amount, exp.description, exp.category, exp.date])
+
+    return response
+
+def download_income(request):
+    response=HttpResponse(content_type='text/csv')
+    response['Content-Disposition']='attachment; filename=Income'+ str(datetime.now())+'.csv'
+    writer=csv.writer(response)
+    writer.writerow(['Amount','Description','Source','Date'])
+
+    income=Income.objects.filter(owner=request.user)
+
+    for inc in income:
+        writer.writerow([inc.amount,inc.description,inc.source,inc.date])
 
     return response
